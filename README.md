@@ -1,3 +1,3 @@
-# stat545_md_explorer
+# STAT 545 Exploration
 
 A repository for exploring version control and markdown
