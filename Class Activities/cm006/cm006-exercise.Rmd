@@ -75,12 +75,14 @@ ggplot(gapminder, aes(lifeExp, gdpPercap)) +
 7. The aesthetic mappings can be specified on the geom layer if you want, instead of the main `ggplot` call. Give it a try:
 
 
+
 8. Optional: git stage and commit
 
 __Uses of a scatterplot__: 
 
 - Visualize 2-dimensional distributions; dependence.
 - 2 numeric variables
+
 
 ## Histograms, and Kernel Density Plots
 
@@ -91,22 +93,40 @@ Let's build a histogram of life expectancy.
 | Grammar Component     | Specification |
 |-----------------------|---------------|
 | __data__              | `gapminder` |
-| __aesthetic mapping__ |  |
-| __geometric object__  |  |
-| scale                 |  |
-| statistical transform |  |
+| __aesthetic mapping__ | `x` |
+| __geometric object__  | histogram |
+| scale                 | linear |
+| statistical transform | none |
 
 2. Build the histogram of life expectancy.
 
+```{r}
+ggplot(gapminder, aes(lifeExp)) +
+    geom_histogram()
+```
 
 
 3. Change the number of bins to 50.
 
-
+```{r}
+ggplot(gapminder, aes(lifeExp)) +
+    geom_histogram(bins = 50)
+```
 
 4. Instead of a histogram, let's create a kernel density plot.
 
+```{r}
+ggplot(gapminder, aes(lifeExp)) +
+    geom_density()
+```
 
+# geom_density(bw=0.1) changes the bin width of the kernels
+
+```{r}
+ggplot(gapminder, aes(lifeExp)) +
+    geom_histogram(aes(y=..density..)) + 
+    geom_density()
+```
 
 5. Optional: git stage and commit
 
@@ -122,25 +142,39 @@ Let's make _box plots_ of population for each continent. Note: y-axis is much be
 | Grammar Component     | Specification |
 |-----------------------|---------------|
 | __data__              | `gapminder` |
-| __aesthetic mapping__ |  |
-| __geometric object__  |  |
-| scale                 |  |
-| statistical transform |  |
+| __aesthetic mapping__ | `x` and `y` |
+| __geometric object__  | boxplot |
+| scale                 | log-y |
+| statistical transform | 5-number summary |
 
 2. Initiate the `ggplot` call, with the log y scale, and store it in the variable `a`. Print out `a`.
 
+```{r}
+a <- ggplot(gapminder, aes(x = continent, y = pop)) +
+    scale_y
+a
+```
 
 
 3. Add the boxplot geom to `a`.
 
+```{r}
+a + geom_boxplot()
+```
 
 
 4. A violin plot is a kernel density on its side, made symmetric. Add that geom to `a`.
     - What's better here, boxplots or violin plots? Why?
 
+```{r}
+a + geom_violin()
+```
+
+
 5. Optional: git stage and commit
 
 __Use of boxplot__: Visualize 1-dimensional distributions (of a single numeric variable).
+
 
 ## Jitter plots
 
@@ -150,26 +184,44 @@ Let's hold off on identifying the grammar.
 
 1. Initiate the `ggplot` call to make a scatterplot of `continent` vs `pop`; initiate the log y scale. Store the call in the variable `b`.
 
+```{r}
+a + geom_point()
+```
 
 
 2. Add the point geom to `b`. Why is this an ineffective plot?
 
+# It's not that useful!
+# Alpha stands for alpha transparency.  So here, you need 10 points overlaid to have a perfectly opaque point.  Otherwise it was all 
+
+```{r}
+a + geom_point(alpha=0.1)
+```
 
 
 3. A solution is to jitter the points. Add the jitter geom. Re-run the command a few times -- does the plot change? Why?
 
-
+```{r}
+a + geom_jitter(alpha = 0.25)
+```
 
 4. How does the grammar differ from a box plot or violin plot?
     - ANSWER: 
 
 5. We can add multiple geom _layers_ to our plot. Put a jitterplot overtop of the violin plot, starting with our base `b`. Try vice-versa. 
 
+# Adding the jitter plot to the violin plot gives you an idea of how many data points there are
+
+```{r}
+a + geom_violin() +
+    geom_jitter(alpha=0.1)
+```
 
 
 6. Optional: git stage and commit
 
 __Uses of jitterplot__: Visualize 1-dimensional distributions, AND get a sense of the sample size.
+
 
 ## Time/Line Plots
 
@@ -191,6 +243,12 @@ Let's make some time/line plot, starting with Canada's life expectancy over time
     3. Makes the time plot of `lifeExp` over time
     4. Also displays the points
 
+```{r}
+gapminder %>%
+    filter(country == 'Canada') %>%
+    ggplot(aes(year, lifeExp)) +
+    geom_line()
+```
 
 
 3. Attempt to overlay line plots for all countries. That is, repeat the above code, but don't filter. What's wrong here?
