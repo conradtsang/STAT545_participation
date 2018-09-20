@@ -1,0 +1,15 @@
+---
+title: "Data Frame Exploration"
+author: "CiT"
+date: "16/09/2018"
+output: github_document
+---
+
+
+Step 4 asked me to write a single English sentence.
+
+```{r}
+#Code goes in chunks
+```
+
+LaTeX equations, $E = mc^{2}$
