@@ -247,14 +247,23 @@ Let's make some time/line plot, starting with Canada's life expectancy over time
 gapminder %>%
     filter(country == 'Canada') %>%
     ggplot(aes(year, lifeExp)) +
-    geom_line()
+    geom_line() +
+    geom_point()
 ```
 
 
 3. Attempt to overlay line plots for all countries. That is, repeat the above code, but don't filter. What's wrong here?
 
+```{r}
+c <- ggplot(gapminder, aes(year, lifeExp))
+c + geom_line()
+```
+# It's trying to connect all the lines which doesn't help.  Try this instead that chunks the data by country
 
-
+```{r}
+c <- ggplot(gapminder, aes(year, lifeExp))
+c + geom_line(aes(group = country), alpha = 0.2)
+```
 4. Use the `group` aesthetic to fix the problem.
 
 
