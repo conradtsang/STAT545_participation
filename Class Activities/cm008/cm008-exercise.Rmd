@@ -252,7 +252,8 @@ gapminder %>%
          gdp = gdpPercap * pop,
          rel_gdp = gdp/cda_gdp)
 #Rep repeats a vector in a certain way
-my_df %>% filter(country == "Canada")
+my_df %>%
+  filter(country == "Canada")
 summary(my_df$rel_gdp)
 ```
 
